@@ -144,6 +144,28 @@ class User {
 		);
 	}
 
+	static async setFavorite(user, storyId) {
+		console.log("this is username", user);
+		console.log("this is token", storyId);
+		const response = await axios({
+			url: `${BASE_URL}/users/${user.username}/favorites/${storyId}`,
+			method: "POST",
+			data: { token: user.loginToken },
+		});
+		console.log(response.data);
+	}
+
+	static async removeFavorite(user, storyId) {
+		console.log("this is username", user);
+		console.log("this is token", storyId);
+		const response = await axios({
+			url: `${BASE_URL}/users/${user.username}/favorites/${storyId}`,
+			method: "DELETE",
+			data: { token: user.loginToken },
+		});
+		console.log(response.data);
+	}
+
 	/** Login in user with API, make User instance & return it.
 
    * - username: an existing user's username

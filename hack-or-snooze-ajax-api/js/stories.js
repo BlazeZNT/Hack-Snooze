@@ -65,6 +65,7 @@ async function submitStoryOnPage(evt) {
 	});
 	const $addStory = generateStoryMarkup(newStory);
 	$allStoriesList.prepend($addStory);
+	console.log(storyList);
 	$submitForm.hide();
 }
 
