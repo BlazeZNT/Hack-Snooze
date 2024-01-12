@@ -144,28 +144,6 @@ class User {
 		);
 	}
 
-	static async setFavorite(user, storyId) {
-		console.log("this is username", user);
-		console.log("this is token", storyId);
-		const response = await axios({
-			url: `${BASE_URL}/users/${user.username}/favorites/${storyId}`,
-			method: "POST",
-			data: { token: user.loginToken },
-		});
-		console.log(response.data);
-	}
-
-	static async removeFavorite(user, storyId) {
-		console.log("this is username", user);
-		console.log("this is token", storyId);
-		const response = await axios({
-			url: `${BASE_URL}/users/${user.username}/favorites/${storyId}`,
-			method: "DELETE",
-			data: { token: user.loginToken },
-		});
-		console.log(response.data);
-	}
-
 	/** Login in user with API, make User instance & return it.
 
    * - username: an existing user's username
@@ -178,6 +156,7 @@ class User {
 			method: "POST",
 			data: { user: { username, password } },
 		});
+		console.log("login response data +++>", response.data);
 
 		let { user } = response.data;
 
@@ -204,7 +183,6 @@ class User {
 				method: "GET",
 				params: { token },
 			});
-
 			let { user } = response.data;
 
 			return new User(
@@ -221,5 +199,72 @@ class User {
 			console.error("loginViaStoredCredentials failed", err);
 			return null;
 		}
+	}
+	// static async setFavorite(username, storyId) {
+	// 	const response = await axios({
+	// 		url: `${BASE_URL}/users/${username.username}/favorites/${storyId}`,
+	// 		method: "POST",
+	// 		data: { token: username.loginToken },
+	// 	});
+	// 	// putFavoriteOnPage(user);
+	// 	let { user } = response.data;
+	// 	return new User(
+	// 		{
+	// 			username: user.username,
+	// 			name: user.name,
+	// 			createdAt: user.createdAt,
+	// 			favorites: user.favorites,
+	// 			ownStories: user.stories,
+	// 		},
+	// 		response.data.token
+	// 	);
+	// }
+	// static async removeFavorite(username, storyId) {
+	// 	const response = await axios({
+	// 		url: `${BASE_URL}/users/${username.username}/favorites/${storyId}`,
+	// 		method: "DELETE",
+	// 		data: { token: username.loginToken },
+	// 	});
+	// 	let { user } = response.data;
+	// 	return new User(
+	// 		{
+	// 			username: user.username,
+	// 			name: user.name,
+	// 			createdAt: user.createdAt,
+	// 			favorites: user.favorites,
+	// 			ownStories: user.stories,
+	// 		},
+	// 		response.data.token
+	// 	);
+	// }
+	// }
+
+	async setFavorite(story) {
+		this.favorites.push(story);
+		console.log("this is favorites after set ====> ", this.favorites);
+		await this.postOrDeleteFav(story, "POST");
+	}
+
+	async removeFavorite(story) {
+		this.favorites = this.favorites.filter((s) => s.storyId !== story.storyId);
+		console.log("this is favorites after remove ====> ", this.favorites);
+		await this.postOrDeleteFav(story, "DELETE");
+	}
+
+	async postOrDeleteFav(story, task) {
+		const token = this.loginToken;
+		console.log("this is token++++>", token);
+		console.log("this is username++++>", token);
+		console.log(this.username);
+		const response = await axios({
+			url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+			method: task,
+			data: { token },
+		});
+		console.log("this is response ====> ", response);
+	}
+
+	isFavorite(story) {
+		return this.favorites.some((s) => s.storyId === story.storyId);
 	}
 }

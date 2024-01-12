@@ -19,13 +19,11 @@ async function getAndShowStoriesOnStart() {
  */
 
 function generateStoryMarkup(story) {
-	// console.debug("generateStoryMarkup", story);
-
 	const hostName = story.getHostName();
 	return $(`
       <li id="${story.storyId}">
 	  	<span class="star">
-		  <i class="far fa-star"></i>
+		  <i class="${currentUser.isFavorite(story) ? "fas" : "far"} fa-star"></i>
 		</span>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
@@ -40,8 +38,6 @@ function generateStoryMarkup(story) {
 /** Gets list of stories from server, generates their HTML, and puts on page. */
 
 function putStoriesOnPage() {
-	console.debug("putStoriesOnPage");
-
 	$allStoriesList.empty();
 	// loop through all of our stories and generate HTML for them
 	for (let story of storyList.stories) {
@@ -54,7 +50,6 @@ function putStoriesOnPage() {
 
 async function submitStoryOnPage(evt) {
 	evt.preventDefault();
-	console.log("This is submitStoryOnPage in stories");
 	const title = $("#submit-title").val();
 	const author = $("#submit-author").val();
 	const url = $("#submit-url").val();
@@ -65,8 +60,40 @@ async function submitStoryOnPage(evt) {
 	});
 	const $addStory = generateStoryMarkup(newStory);
 	$allStoriesList.prepend($addStory);
-	console.log(storyList);
 	$submitForm.hide();
 }
 
 $submitForm.on("submit", submitStoryOnPage);
+
+// function putFavoriteOnPage(user) {
+// 	console.log("this is current user ===>", user);
+// 	let userFavorite = user.favorites;
+// 	for (let fav of userFavorite) {
+// 		const $fav = generateStoryMarkup(fav);
+// 		$favouriteStories.append($fav);
+// 	}
+// 	// const $fav = userFavorite[user.favorites.length - 1];
+// 	// $favouriteStories.append($fav);
+// }
+
+function toggleFavorite(event) {
+	event.preventDefault();
+	const $evt = $(event.target);
+	const $evtId = $($evt.closest("li")).attr("id");
+	const $evtClass = $evt.attr("class");
+	const story = storyList.stories.find((s) => s.storyId === $evtId);
+	console.log("this is story====>", story);
+	console.log("this is user ====>", currentUser);
+
+	if ($evtClass.includes("far")) {
+		console.log("setfavorite method");
+		currentUser.setFavorite(story);
+		$evt.toggleClass("fas far");
+	} else {
+		console.log("removefavorite method");
+		currentUser.removeFavorite(story);
+		$evt.toggleClass("fas far");
+	}
+}
+
+$allStoriesList.on("click", ".star", toggleFavorite);
