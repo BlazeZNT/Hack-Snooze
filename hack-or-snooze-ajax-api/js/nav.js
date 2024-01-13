@@ -41,6 +41,7 @@ function navFavouriteClick(evt) {
 	$allStoriesList.hide();
 	$submitForm.hide();
 	$favouriteStories.show();
+	addtofavoriteStoryList();
 }
 $navFavourite.on("click", navFavouriteClick);
 

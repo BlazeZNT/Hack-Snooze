@@ -20,11 +20,12 @@ async function getAndShowStoriesOnStart() {
 
 function generateStoryMarkup(story) {
 	const hostName = story.getHostName();
+	const currentUserTrue = Boolean(currentUser);
+
+	// const isfav = new User(story);
 	return $(`
       <li id="${story.storyId}">
-	  	<span class="star">
-		  <i class="${currentUser.isFavorite(story) ? "fas" : "far"} fa-star"></i>
-		</span>
+	  	${currentUserTrue ? addStarHtml(story) : ""}
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -33,6 +34,24 @@ function generateStoryMarkup(story) {
         <small class="story-user">posted by ${story.username}</small>
       </li>
     `);
+}
+
+function addStarHtml(story) {
+	return `<span class="star">
+		<i class="${currentUser.isFavorite(story) ? "fas" : "far"} fa-star"></i>
+	</span>`;
+}
+
+function addtofavoriteStoryList() {
+	$favouriteStories.empty();
+	if (currentUser.favorites.length === 0) {
+		$favouriteStories.append("<h5>No favourite Stories added!</h5>");
+	} else {
+		for (let story of currentUser.favorites) {
+			const newFav = generateStoryMarkup(story);
+			$favouriteStories.append(newFav);
+		}
+	}
 }
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
