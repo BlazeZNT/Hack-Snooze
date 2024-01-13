@@ -156,7 +156,6 @@ class User {
 			method: "POST",
 			data: { user: { username, password } },
 		});
-		console.log("login response data +++>", response.data);
 
 		let { user } = response.data;
 
@@ -238,30 +237,33 @@ class User {
 	// 	);
 	// }
 	// }
+	addRemoveMyStories(story, task) {
+		if (task === "add") {
+			this.ownStories.push(story);
+		} else {
+			this.ownStories = this.ownStories.filter(
+				(s) => s.storyId !== story.storyId
+			);
+		}
+	}
 
 	async setFavorite(story) {
 		this.favorites.push(story);
-		console.log("this is favorites after set ====> ", this.favorites);
 		await this.postOrDeleteFav(story, "POST");
 	}
 
 	async removeFavorite(story) {
 		this.favorites = this.favorites.filter((s) => s.storyId !== story.storyId);
-		console.log("this is favorites after remove ====> ", this.favorites);
 		await this.postOrDeleteFav(story, "DELETE");
 	}
 
 	async postOrDeleteFav(story, task) {
 		const token = this.loginToken;
-		console.log("this is token++++>", token);
-		console.log("this is username++++>", token);
-		console.log(this.username);
 		const response = await axios({
 			url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
 			method: task,
 			data: { token },
 		});
-		console.log("this is response ====> ", response);
 	}
 
 	isFavorite(story) {

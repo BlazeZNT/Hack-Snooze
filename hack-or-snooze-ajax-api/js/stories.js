@@ -42,7 +42,7 @@ function addStarHtml(story) {
 	</span>`;
 }
 
-function addtofavoriteStoryList() {
+function addToFavoriteStoryList() {
 	$favouriteStories.empty();
 	if (currentUser.favorites.length === 0) {
 		$favouriteStories.append("<h5>No favourite Stories added!</h5>");
@@ -50,6 +50,17 @@ function addtofavoriteStoryList() {
 		for (let story of currentUser.favorites) {
 			const newFav = generateStoryMarkup(story);
 			$favouriteStories.append(newFav);
+		}
+	}
+}
+function addMyStoryList() {
+	$myStories.empty();
+	if (currentUser.ownStories.length === 0) {
+		$myStories.append("<h5>No story added by User yet</h5>");
+	} else {
+		for (let story of currentUser.ownStories) {
+			const newMyStory = generateStoryMarkup(story);
+			$myStories.append(newMyStory);
 		}
 	}
 }
@@ -79,6 +90,7 @@ async function submitStoryOnPage(evt) {
 	});
 	const $addStory = generateStoryMarkup(newStory);
 	$allStoriesList.prepend($addStory);
+	// currentUser.addRemoveMyStories($addStory, "add");
 	$submitForm.hide();
 }
 
@@ -101,8 +113,6 @@ function toggleFavorite(event) {
 	const $evtId = $($evt.closest("li")).attr("id");
 	const $evtClass = $evt.attr("class");
 	const story = storyList.stories.find((s) => s.storyId === $evtId);
-	console.log("this is story====>", story);
-	console.log("this is user ====>", currentUser);
 
 	if ($evtClass.includes("far")) {
 		console.log("setfavorite method");
@@ -116,3 +126,5 @@ function toggleFavorite(event) {
 }
 
 $allStoriesList.on("click", ".star", toggleFavorite);
+$favouriteStories.on("click", ".star", toggleFavorite);
+$myStories.on("click", ".star", toggleFavorite);
