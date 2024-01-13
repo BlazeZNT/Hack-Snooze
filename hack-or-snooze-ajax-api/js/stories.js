@@ -76,6 +76,18 @@ function putStoriesOnPage() {
 
 	$allStoriesList.show();
 }
+function putMyStoriesOnPage() {
+	$allStoriesList.empty();
+	// loop through all of our stories and generate HTML for them
+	for (let story of storyList.stories) {
+		if (story.username === currentUser.username) {
+			const $story = generateStoryMarkup(story);
+			$favouriteStories.append($story);
+		}
+	}
+
+	$allStoriesList.show();
+}
 
 async function submitStoryOnPage(evt) {
 	evt.preventDefault();
@@ -94,17 +106,6 @@ async function submitStoryOnPage(evt) {
 }
 
 $submitForm.on("submit", submitStoryOnPage);
-
-// function putFavoriteOnPage(user) {
-// 	console.log("this is current user ===>", user);
-// 	let userFavorite = user.favorites;
-// 	for (let fav of userFavorite) {
-// 		const $fav = generateStoryMarkup(fav);
-// 		$favouriteStories.append($fav);
-// 	}
-// 	// const $fav = userFavorite[user.favorites.length - 1];
-// 	// $favouriteStories.append($fav);
-// }
 
 function toggleFavorite(event) {
 	event.preventDefault();

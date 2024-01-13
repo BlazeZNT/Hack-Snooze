@@ -199,44 +199,6 @@ class User {
 			return null;
 		}
 	}
-	// static async setFavorite(username, storyId) {
-	// 	const response = await axios({
-	// 		url: `${BASE_URL}/users/${username.username}/favorites/${storyId}`,
-	// 		method: "POST",
-	// 		data: { token: username.loginToken },
-	// 	});
-	// 	// putFavoriteOnPage(user);
-	// 	let { user } = response.data;
-	// 	return new User(
-	// 		{
-	// 			username: user.username,
-	// 			name: user.name,
-	// 			createdAt: user.createdAt,
-	// 			favorites: user.favorites,
-	// 			ownStories: user.stories,
-	// 		},
-	// 		response.data.token
-	// 	);
-	// }
-	// static async removeFavorite(username, storyId) {
-	// 	const response = await axios({
-	// 		url: `${BASE_URL}/users/${username.username}/favorites/${storyId}`,
-	// 		method: "DELETE",
-	// 		data: { token: username.loginToken },
-	// 	});
-	// 	let { user } = response.data;
-	// 	return new User(
-	// 		{
-	// 			username: user.username,
-	// 			name: user.name,
-	// 			createdAt: user.createdAt,
-	// 			favorites: user.favorites,
-	// 			ownStories: user.stories,
-	// 		},
-	// 		response.data.token
-	// 	);
-	// }
-	// }
 	addRemoveMyStories(story, task) {
 		if (task === "add") {
 			this.ownStories.push(story);
