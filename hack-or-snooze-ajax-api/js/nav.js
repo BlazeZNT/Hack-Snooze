@@ -63,6 +63,7 @@ $navMyStories.on("click", navMyStoriesClick);
 function updateNavOnLogin() {
 	console.debug("updateNavOnLogin");
 	$(".main-nav-links").show();
+	putStoriesOnPage();
 	$navLogin.hide();
 	$navLogOut.show();
 	$navSubmit.show();

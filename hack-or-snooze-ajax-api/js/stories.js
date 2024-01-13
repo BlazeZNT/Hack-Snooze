@@ -7,7 +7,6 @@ let storyList;
 async function getAndShowStoriesOnStart() {
 	storyList = await StoryList.getStories();
 	$storiesLoadingMsg.remove();
-
 	putStoriesOnPage();
 }
 
@@ -90,7 +89,7 @@ async function submitStoryOnPage(evt) {
 	});
 	const $addStory = generateStoryMarkup(newStory);
 	$allStoriesList.prepend($addStory);
-	// currentUser.addRemoveMyStories($addStory, "add");
+	currentUser.addRemoveMyStories(newStory, "add");
 	$submitForm.hide();
 }
 
