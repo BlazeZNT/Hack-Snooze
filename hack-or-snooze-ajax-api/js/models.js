@@ -199,15 +199,15 @@ class User {
 			return null;
 		}
 	}
-	addRemoveMyStories(story, task) {
-		if (task === "add") {
-			this.ownStories.push(story);
-		} else {
-			this.ownStories = this.ownStories.filter(
-				(s) => s.storyId !== story.storyId
-			);
-		}
-	}
+	// addRemoveMyStories(story, task) {
+	// 	if (task === "add") {
+	// 		this.ownStories.push(story);
+	// 	} else {
+	// 		this.ownStories = this.ownStories.filter(
+	// 			(s) => s.storyId !== story.storyId
+	// 		);
+	// 	}
+	// }
 
 	async setFavorite(story) {
 		this.favorites.push(story);

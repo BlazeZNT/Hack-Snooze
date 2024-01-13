@@ -17,13 +17,13 @@ async function getAndShowStoriesOnStart() {
  * Returns the markup for the story.
  */
 
-function generateStoryMarkup(story) {
+function generateStoryMarkup(story, status = false) {
 	const hostName = story.getHostName();
 	const currentUserTrue = Boolean(currentUser);
 
-	// const isfav = new User(story);
 	return $(`
       <li id="${story.storyId}">
+	  	${status ? addbin() : ""}
 	  	${currentUserTrue ? addStarHtml(story) : ""}
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
@@ -41,6 +41,12 @@ function addStarHtml(story) {
 	</span>`;
 }
 
+function addbin() {
+	return `<span class="trash-can">
+		<i class="fas fa-trash-alt"></i>
+	</span>`;
+}
+
 function addToFavoriteStoryList() {
 	$favouriteStories.empty();
 	if (currentUser.favorites.length === 0) {
@@ -52,13 +58,19 @@ function addToFavoriteStoryList() {
 		}
 	}
 }
+
+// function deleteStory() {
+// 	console.log("hehe");
+// }
+// $myStories.on("click", ".trash-can", deleteStory);
+
 function addMyStoryList() {
 	$myStories.empty();
 	if (currentUser.ownStories.length === 0) {
 		$myStories.append("<h5>No story added by User yet</h5>");
 	} else {
 		for (let story of currentUser.ownStories) {
-			const newMyStory = generateStoryMarkup(story);
+			const newMyStory = generateStoryMarkup(story, true);
 			$myStories.append(newMyStory);
 		}
 	}
@@ -76,18 +88,6 @@ function putStoriesOnPage() {
 
 	$allStoriesList.show();
 }
-function putMyStoriesOnPage() {
-	$allStoriesList.empty();
-	// loop through all of our stories and generate HTML for them
-	for (let story of storyList.stories) {
-		if (story.username === currentUser.username) {
-			const $story = generateStoryMarkup(story);
-			$favouriteStories.append($story);
-		}
-	}
-
-	$allStoriesList.show();
-}
 
 async function submitStoryOnPage(evt) {
 	evt.preventDefault();
@@ -101,7 +101,7 @@ async function submitStoryOnPage(evt) {
 	});
 	const $addStory = generateStoryMarkup(newStory);
 	$allStoriesList.prepend($addStory);
-	currentUser.addRemoveMyStories(newStory, "add");
+	// currentUser.addRemoveMyStories(newStory, "add");
 	$submitForm.hide();
 }
 

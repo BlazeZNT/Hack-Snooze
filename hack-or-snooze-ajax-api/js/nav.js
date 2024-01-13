@@ -49,12 +49,12 @@ function navFavouriteClick(evt) {
 $navFavourite.on("click", navFavouriteClick);
 
 function navMyStoriesClick(evt) {
-	console.log("hello");
 	$allStoriesList.hide();
 	$submitForm.hide();
 	$favouriteStories.hide();
 	$myStories.show();
 	addMyStoryList();
+	// putMyStoriesOnPage();
 }
 $navMyStories.on("click", navMyStoriesClick);
 
