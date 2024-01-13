@@ -54,7 +54,6 @@ function navMyStoriesClick(evt) {
 	$favouriteStories.hide();
 	$myStories.show();
 	addMyStoryList();
-	// putMyStoriesOnPage();
 }
 $navMyStories.on("click", navMyStoriesClick);
 

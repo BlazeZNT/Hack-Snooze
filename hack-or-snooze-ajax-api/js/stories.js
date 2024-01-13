@@ -59,10 +59,14 @@ function addToFavoriteStoryList() {
 	}
 }
 
-// function deleteStory() {
-// 	console.log("hehe");
-// }
-// $myStories.on("click", ".trash-can", deleteStory);
+async function deleteStory(event) {
+	const $target = $(event.target);
+	const $id = $($target.closest("li")).attr("id");
+	const $story = storyList.stories.find((s) => s.storyId === $id);
+	await storyList.delStory($id, currentUser.loginToken);
+	addMyStoryList();
+}
+$myStories.on("click", ".trash-can", deleteStory);
 
 function addMyStoryList() {
 	$myStories.empty();
@@ -73,6 +77,7 @@ function addMyStoryList() {
 			const newMyStory = generateStoryMarkup(story, true);
 			$myStories.append(newMyStory);
 		}
+		console.log(currentUser.ownStories);
 	}
 }
 
@@ -103,6 +108,7 @@ async function submitStoryOnPage(evt) {
 	$allStoriesList.prepend($addStory);
 	// currentUser.addRemoveMyStories(newStory, "add");
 	$submitForm.hide();
+	getAndShowStoriesOnStart();
 }
 
 $submitForm.on("submit", submitStoryOnPage);

@@ -88,6 +88,23 @@ class StoryList {
 
 		// UNIMPLEMENTED: complete this function!
 	}
+
+	async delStory(id, token) {
+		const response = await axios({
+			url: `${BASE_URL}/stories/${id}`,
+			method: "DELETE",
+			data: { token },
+		});
+		console.log("this is response ===> ", response);
+		this.stories = this.stories.filter((s) => s.storyId !== id);
+		currentUser.favorites = currentUser.favorites.filter(
+			(s) => s.storyId !== id
+		);
+		currentUser.ownStories = currentUser.ownStories.filter(
+			(s) => s.storyId !== id
+		);
+		return response;
+	}
 }
 
 /******************************************************************************
@@ -208,6 +225,9 @@ class User {
 	// 		);
 	// 	}
 	// }
+	setOwnStory(story) {
+		this.ownStories.push(story);
+	}
 
 	async setFavorite(story) {
 		this.favorites.push(story);
