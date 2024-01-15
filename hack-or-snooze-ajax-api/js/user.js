@@ -10,21 +10,25 @@ let currentUser;
 /** Handle login form submission. If login ok, sets up the user instance */
 
 async function login(evt) {
-	console.debug("login", evt);
-	evt.preventDefault();
+	try {
+		console.debug("login", evt);
+		evt.preventDefault();
 
-	// grab the username and password
-	const username = $("#login-username").val();
-	const password = $("#login-password").val();
+		// grab the username and password
+		const username = $("#login-username").val();
+		const password = $("#login-password").val();
 
-	// User.login retrieves user info from API and returns User instance
-	// which we'll make the globally-available, logged-in user.
-	currentUser = await User.login(username, password);
+		// User.login retrieves user info from API and returns User instance
+		// which we'll make the globally-available, logged-in user.
+		currentUser = await User.login(username, password);
 
-	$loginForm.trigger("reset");
+		$loginForm.trigger("reset");
 
-	saveUserCredentialsInLocalStorage();
-	updateUIOnUserLogin();
+		saveUserCredentialsInLocalStorage();
+		updateUIOnUserLogin();
+	} catch (error) {
+		alert("Make sure your credentials are correct");
+	}
 }
 
 $loginForm.on("submit", login);
@@ -32,21 +36,25 @@ $loginForm.on("submit", login);
 /** Handle signup form submission. */
 
 async function signup(evt) {
-	console.debug("signup", evt);
-	evt.preventDefault();
+	try {
+		console.debug("signup", evt);
+		evt.preventDefault();
 
-	const name = $("#signup-name").val();
-	const username = $("#signup-username").val();
-	const password = $("#signup-password").val();
+		const name = $("#signup-name").val();
+		const username = $("#signup-username").val();
+		const password = $("#signup-password").val();
 
-	// User.signup retrieves user info from API and returns User instance
-	// which we'll make the globally-available, logged-in user.
-	currentUser = await User.signup(username, password, name);
+		// User.signup retrieves user info from API and returns User instance
+		// which we'll make the globally-available, logged-in user.
+		currentUser = await User.signup(username, password, name);
 
-	saveUserCredentialsInLocalStorage();
-	updateUIOnUserLogin();
+		saveUserCredentialsInLocalStorage();
+		updateUIOnUserLogin();
 
-	$signupForm.trigger("reset");
+		$signupForm.trigger("reset");
+	} catch (error) {
+		alert("This user already exists");
+	}
 }
 
 $signupForm.on("submit", signup);

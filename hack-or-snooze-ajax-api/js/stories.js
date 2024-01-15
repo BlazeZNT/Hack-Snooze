@@ -99,19 +99,23 @@ function putStoriesOnPage() {
 
 async function submitStoryOnPage(evt) {
 	evt.preventDefault();
-	const title = $("#submit-title").val();
-	const author = $("#submit-author").val();
-	const url = $("#submit-url").val();
-	const newStory = await storyList.addStory(currentUser, {
-		title,
-		author,
-		url,
-	});
-	const $addStory = generateStoryMarkup(newStory);
-	$allStoriesList.prepend($addStory);
-	// currentUser.addRemoveMyStories(newStory, "add");
-	$submitForm.hide();
-	getAndShowStoriesOnStart();
+	try {
+		const title = $("#submit-title").val();
+		const author = $("#submit-author").val();
+		const url = $("#submit-url").val();
+		const newStory = await storyList.addStory(currentUser, {
+			title,
+			author,
+			url,
+		});
+		const $addStory = generateStoryMarkup(newStory);
+		$allStoriesList.prepend($addStory);
+		// currentUser.addRemoveMyStories(newStory, "add");
+		$submitForm.hide();
+		getAndShowStoriesOnStart();
+	} catch (error) {
+		window.alert("Please enter a URL");
+	}
 }
 
 $submitForm.on("submit", submitStoryOnPage);
