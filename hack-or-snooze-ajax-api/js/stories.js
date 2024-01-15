@@ -62,7 +62,7 @@ function addToFavoriteStoryList() {
 		}
 	}
 }
-
+// function to delete user Stories
 async function deleteStory(event) {
 	const $target = $(event.target);
 	const $id = $($target.closest("li")).attr("id");
@@ -71,6 +71,21 @@ async function deleteStory(event) {
 	addMyStoryList();
 }
 $myStories.on("click", ".trash-can", deleteStory);
+
+// function to update user stories
+async function updateStory(event) {
+	event.preventDefault();
+	const $target = $(event.target);
+	const $storyId = $($target.closest("li")).attr("id");
+	const $story = storyList.stories.find((s) => s.storyId === $storyId);
+	console.log($storyId);
+	console.log($story);
+	$submitForm.show();
+	$("#submit-author").val(`${$story.author}`);
+	$("#submit-title").val(`${$story.title}`);
+	$("#submit-url").val(`${$story.url}`);
+}
+$myStories.on("click", ".penIcon", updateStory);
 
 function addMyStoryList() {
 	$myStories.empty();
@@ -83,12 +98,6 @@ function addMyStoryList() {
 		}
 		console.log(currentUser.ownStories);
 	}
-}
-
-async function updateStory(event) {
-	event.preventDefault();
-	const $target = $(event.target);
-	console.log($target);
 }
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
@@ -125,7 +134,7 @@ async function submitStoryOnPage(evt) {
 	}
 }
 
-$submitForm.on("submit", submitStoryOnPage);
+$submitForm.on("click", "#submitButton", submitStoryOnPage);
 
 function toggleFavorite(event) {
 	event.preventDefault();

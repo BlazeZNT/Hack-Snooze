@@ -133,3 +133,7 @@ form > hr {
 .trash-can:hover {
 	color: red;
 }
+
+.penIcon:hover {
+	color: green;
+}

@@ -36,6 +36,8 @@ function navSubmitClick(evt) {
 	$favouriteStories.hide();
 	$myStories.hide();
 	putStoriesOnPage();
+	$("#submitButton").show();
+	$("#editButton").hide();
 }
 
 $navSubmit.on("click", navSubmitClick);
@@ -55,6 +57,8 @@ function navMyStoriesClick(evt) {
 	$favouriteStories.hide();
 	$myStories.show();
 	addMyStoryList();
+	$("#submitButton").hide();
+	$("#editButton").show();
 }
 $navMyStories.on("click", navMyStoriesClick);
 
