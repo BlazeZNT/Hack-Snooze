@@ -107,6 +107,20 @@ class StoryList {
 		);
 		return response;
 	}
+
+	async updateCurrentStory(story) {
+		const response = await axios({
+			url: `${BASE_URL}/stories/${story.storyId}`,
+			method: "PATCH",
+			data: {
+				token: currentUser.loginToken,
+				story: { author: "Mordirid", title: "Skeet" },
+			},
+		});
+		const recentStroy = response.data.story;
+		const newStory = new Story(recentStroy);
+		return newStory;
+	}
 }
 
 /******************************************************************************
@@ -227,8 +241,16 @@ class User {
 	// 		);
 	// 	}
 	// }
-	setOwnStory(story) {
-		this.ownStories.push(story);
+	setOwnStory(story, oldId) {
+		// const storyIndex = this.ownStories.indexOf()
+		console.log("this is the new input story ===> ", story);
+		console.log("this is currenUser Ownstories before == >", this.ownStories);
+		// this.ownStories = this.ownStories.filter(
+		// 	(s) => s.storyId !== story.storyId
+		// );
+		// this.ownStories.push(story);
+		this.ownStories[oldId] = story;
+		console.log("this is currenUser Ownstories after == >", this.ownStories);
 	}
 
 	async setFavorite(story) {

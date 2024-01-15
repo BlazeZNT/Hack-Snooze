@@ -75,15 +75,26 @@ $myStories.on("click", ".trash-can", deleteStory);
 // function to update user stories
 async function updateStory(event) {
 	event.preventDefault();
+	console.log("Run updateStory");
 	const $target = $(event.target);
 	const $storyId = $($target.closest("li")).attr("id");
 	const $story = storyList.stories.find((s) => s.storyId === $storyId);
-	console.log($storyId);
-	console.log($story);
+	const $storyIndex = currentUser.ownStories.findIndex(
+		(s) => s.storyId === $storyId
+	);
+	console.log($storyIndex);
 	$submitForm.show();
 	$("#submit-author").val(`${$story.author}`);
 	$("#submit-title").val(`${$story.title}`);
 	$("#submit-url").val(`${$story.url}`);
+	$submitForm.on("click", "#editButton", async function (event) {
+		event.preventDefault();
+		const $newStory = await storyList.updateCurrentStory($story);
+		await getAndShowStoriesOnStart();
+		$allStoriesList.hide();
+		currentUser.setOwnStory($newStory, $storyIndex);
+		addMyStoryList();
+	});
 }
 $myStories.on("click", ".penIcon", updateStory);
 
