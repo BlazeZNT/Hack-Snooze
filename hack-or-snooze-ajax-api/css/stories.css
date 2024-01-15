@@ -46,3 +46,9 @@
 	margin-bottom: 1em;
 	display: block;
 }
+
+.star-space {
+	margin: 0;
+	padding: 0;
+	margin-left: 20px;
+}

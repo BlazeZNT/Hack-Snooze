@@ -25,12 +25,14 @@ function generateStoryMarkup(story, status = false) {
       <li id="${story.storyId}">
 	  	${status ? addbin() : ""}
 	  	${currentUserTrue ? addStarHtml(story) : ""}
-        <a href="${story.url}" target="a_blank" class="story-link">
-          ${story.title}
-        </a>
-        <small class="story-hostname">(${hostName})</small>
-        <small class="story-author">by ${story.author}</small>
-        <small class="story-user">posted by ${story.username}</small>
+			<a href="${story.url}" target="a_blank" class="story-link">
+			${story.title}
+			</a>
+			<small class="story-hostname">(${hostName})</small>
+		<div class="star-space">
+			<small class="story-author">by ${story.author}</small>
+			<small class="story-user">posted by ${story.username}</small>
+		</div>
 		<hr>
       </li>
     `);
