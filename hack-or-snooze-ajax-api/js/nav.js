@@ -35,6 +35,7 @@ function navSubmitClick(evt) {
 	$allStoriesList.show();
 	$favouriteStories.hide();
 	$myStories.hide();
+	putStoriesOnPage();
 }
 
 $navSubmit.on("click", navSubmitClick);

@@ -23,7 +23,8 @@ function generateStoryMarkup(story, status = false) {
 
 	return $(`
       <li id="${story.storyId}">
-	  	${status ? addbin() : ""}
+	  	${status ? addBinOrPen(true) : ""}
+	  	${status ? addBinOrPen(false) : ""}
 	  	${currentUserTrue ? addStarHtml(story) : ""}
 			<a href="${story.url}" target="a_blank" class="story-link">
 			${story.title}
@@ -44,9 +45,9 @@ function addStarHtml(story) {
 	</span>`;
 }
 
-function addbin() {
-	return `<span class="trash-can">
-		<i class="fas fa-trash-alt"></i>
+function addBinOrPen(status) {
+	return `<span class="${status ? "penIcon" : "trash-can"}">
+		<i class="fas ${status ? "fa-pen" : "fa-trash-alt"}"></i>
 	</span>`;
 }
 
@@ -65,7 +66,7 @@ function addToFavoriteStoryList() {
 async function deleteStory(event) {
 	const $target = $(event.target);
 	const $id = $($target.closest("li")).attr("id");
-	const $story = storyList.stories.find((s) => s.storyId === $id);
+	// const $story = storyList.stories.find((s) => s.storyId === $id);
 	await storyList.delStory($id, currentUser.loginToken);
 	addMyStoryList();
 }
@@ -82,6 +83,12 @@ function addMyStoryList() {
 		}
 		console.log(currentUser.ownStories);
 	}
+}
+
+async function updateStory(event) {
+	event.preventDefault();
+	const $target = $(event.target);
+	console.log($target);
 }
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
