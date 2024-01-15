@@ -22,9 +22,10 @@ class Story {
 
 	/** Parses hostname out of URL and returns it. */
 
-	getHostName() {
-		// UNIMPLEMENTED: complete this function!
-		return "hostname.com";
+	getHostName(story) {
+		const url = new URL(story.url);
+		const domain = url.hostname.replace(/^www\./, "");
+		return domain;
 	}
 }
 

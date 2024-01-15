@@ -18,7 +18,7 @@ async function getAndShowStoriesOnStart() {
  */
 
 function generateStoryMarkup(story, status = false) {
-	const hostName = story.getHostName();
+	const hostName = story.getHostName(story);
 	const currentUserTrue = Boolean(currentUser);
 
 	return $(`
