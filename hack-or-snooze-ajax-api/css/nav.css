@@ -1,23 +1,35 @@
 /* Navigation bar */
 
 nav {
-  display: flex;
-  background-color: #ff6600;
-  align-items: center;
-  padding: 5px 20px;
-  border-radius: 3px 3px 0 0;
+	display: flex;
+	background-color: #ff6600;
+	align-items: center;
+	padding: 25px;
+	border-radius: 3px 3px 0 0;
 }
 
 .navbar-brand {
-  font-weight: bold;
+	font-weight: 800;
 }
 
 .nav-link {
-  font-size: 0.85rem;
-  margin: 0 3px;
+	font-size: 0.85rem;
+	margin: 0 3px;
+}
+
+.main-navbar-link {
+	margin-left: 10px;
+}
+
+.main-navbar-link a {
+	margin: 0;
+	border-left: solid 3px;
+	font-weight: 550;
+	padding-left: 5px;
 }
 
 .nav-right {
-  margin-left: auto;
-  text-align: right;
+	font-weight: 550;
+	margin-left: auto;
+	text-align: right;
 }
