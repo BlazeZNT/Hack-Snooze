@@ -108,13 +108,13 @@ class StoryList {
 		return response;
 	}
 
-	async updateCurrentStory(story) {
+	async updateCurrentStory(inputStory, change) {
 		const response = await axios({
-			url: `${BASE_URL}/stories/${story.storyId}`,
+			url: `${BASE_URL}/stories/${inputStory.storyId}`,
 			method: "PATCH",
 			data: {
 				token: currentUser.loginToken,
-				story: { author: "Mordirid", title: "Skeet" },
+				story: change,
 			},
 		});
 		const recentStroy = response.data.story;
@@ -241,16 +241,21 @@ class User {
 	// 		);
 	// 	}
 	// }
-	setOwnStory(story, oldId) {
+	setOwnStory(story, oldInd) {
 		// const storyIndex = this.ownStories.indexOf()
-		console.log("this is the new input story ===> ", story);
-		console.log("this is currenUser Ownstories before == >", this.ownStories);
+		// console.log("this is the new input story ===> ", story);
+		// console.log("this is currenUser Ownstories before == >", this.ownStories);
 		// this.ownStories = this.ownStories.filter(
 		// 	(s) => s.storyId !== story.storyId
 		// );
 		// this.ownStories.push(story);
-		this.ownStories[oldId] = story;
-		console.log("this is currenUser Ownstories after == >", this.ownStories);
+		this.ownStories[oldInd] = story;
+		// console.log("this is currenUser Ownstories after == >", this.ownStories);
+	}
+	updateFavStory(story, oldind) {
+		if (oldind !== -1) {
+			this.favorites[oldind] = story;
+		}
 	}
 
 	async setFavorite(story) {

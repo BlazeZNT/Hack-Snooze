@@ -79,20 +79,29 @@ async function updateStory(event) {
 	const $target = $(event.target);
 	const $storyId = $($target.closest("li")).attr("id");
 	const $story = storyList.stories.find((s) => s.storyId === $storyId);
-	const $storyIndex = currentUser.ownStories.findIndex(
+	const $OwnStoryIndex = currentUser.ownStories.findIndex(
 		(s) => s.storyId === $storyId
 	);
-	console.log($storyIndex);
+	const $FavStoryIndex = currentUser.favorites.findIndex(
+		(s) => s.storyId === $storyId
+	);
 	$submitForm.show();
 	$("#submit-author").val(`${$story.author}`);
 	$("#submit-title").val(`${$story.title}`);
 	$("#submit-url").val(`${$story.url}`);
 	$submitForm.on("click", "#editButton", async function (event) {
 		event.preventDefault();
-		const $newStory = await storyList.updateCurrentStory($story);
+		const author = $("#submit-author").val();
+		const title = $("#submit-title").val();
+		const url = $("#submit-url").val();
+		const change = { author, title, url };
+		// Set changes to API for stories
+		const $newStory = await storyList.updateCurrentStory($story, change);
 		await getAndShowStoriesOnStart();
 		$allStoriesList.hide();
-		currentUser.setOwnStory($newStory, $storyIndex);
+		// change UI story names for Favorite and Ownstories
+		currentUser.setOwnStory($newStory, $OwnStoryIndex);
+		currentUser.updateFavStory($newStory, $FavStoryIndex);
 		addMyStoryList();
 	});
 }
