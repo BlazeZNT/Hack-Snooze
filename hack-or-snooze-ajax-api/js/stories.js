@@ -79,6 +79,9 @@ async function updateStory(event) {
 	const $target = $(event.target);
 	const $storyId = $($target.closest("li")).attr("id");
 	const $story = storyList.stories.find((s) => s.storyId === $storyId);
+	const $storyListId = storyList.stories.findIndex(
+		(s) => s.storyId === $storyId
+	);
 	const $OwnStoryIndex = currentUser.ownStories.findIndex(
 		(s) => s.storyId === $storyId
 	);
@@ -97,8 +100,9 @@ async function updateStory(event) {
 		const change = { author, title, url };
 		// Set changes to API for stories
 		const $newStory = await storyList.updateCurrentStory($story, change);
-		await getAndShowStoriesOnStart();
-		$allStoriesList.hide();
+		// await getAndShowStoriesOnStart();
+		// $allStoriesList.hide();
+		storyList.stories[$storyListId] = $newStory;
 		// change UI story names for Favorite and Ownstories
 		currentUser.setOwnStory($newStory, $OwnStoryIndex);
 		currentUser.updateFavStory($newStory, $FavStoryIndex);
